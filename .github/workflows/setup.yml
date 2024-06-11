@@ -1,0 +1,14 @@
+name: Workflow test
+
+on:
+  workflow_dispatch
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    #Checkout the codebase
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    
