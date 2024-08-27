@@ -11,7 +11,32 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Run builds
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4.2.2
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-maven
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+    - name: Build Java application with Maven
+      run: mvn clean install -DskipTests
+
+    - name: Build Docker Image
       run: |
-        mvn clean install -Dskiptests
+        docker build -t 7990509979/demoProject .
+        docker image ls
+      
+    - name: Push Docker image to Artifactory 
+      run: |
+        docker push 7990509979/demoProject
+    
         
