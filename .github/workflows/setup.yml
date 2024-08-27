@@ -2,6 +2,9 @@ name: Workflow test
 
 on:
   workflow_dispatch
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
   
 jobs:
   build:
@@ -37,6 +40,7 @@ jobs:
       
     - name: Push Docker image to Artifactory 
       run: |
+        docker login --username ${{ env.DOCKER_USERNAME }} --password ${{ env.DOCKER_PASSWORD }}
         docker push 7990509979/demo-project
     
         
