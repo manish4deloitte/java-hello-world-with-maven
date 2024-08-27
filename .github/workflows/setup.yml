@@ -32,11 +32,11 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t 7990509979/demoProject .
+        docker build -t 7990509979/demo-project .
         docker image ls
       
     - name: Push Docker image to Artifactory 
       run: |
-        docker push 7990509979/demoProject
+        docker push 7990509979/demo-project
     
         
