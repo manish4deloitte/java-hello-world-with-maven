@@ -52,7 +52,7 @@ jobs:
         ECR_REGISTRY: 975050202362.dkr.ecr.ap-south-1.amazonaws.com
         ECR_REPOSITORY: hello-world-mine
         IMAGE_TAG: ${{ github.sha }}
-        run: |
+      run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
     - name: Trigger AWS CodePipeline
