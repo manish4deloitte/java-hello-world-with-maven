@@ -11,9 +11,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Trigger AWS Codepipeline
-        env:
-          AWS_region:
-          aws_key_id:
-          aws_secret_access_key:
         run: |
-          aws codepipeline start-pipeline-execution --name <pip_name> --region $AWS_REGION
+          aws codepipeline start-pipeline-execution --name testPipeline
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-south-1
