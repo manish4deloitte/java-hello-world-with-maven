@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  # ECS Task Definition
+  ECSTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: MyTaskDefinition
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: '256'
+      Memory: '512'
+      NetworkMode: awsvpc
+      ExecutionRoleArn: arn:aws:iam::975050202362:role/ecsTaskExecutionRole  # Replace with your IAM role ARN
+      ContainerDefinitions:
+        - Name: my-container
+          Image: 975050202362.dkr.ecr.ap-south-1.amazonaws.com/hello-world-mine:latest  # Replace with your ECR image URI
+          Memory: 512
+          Cpu: 256
+          Essential: true
+          PortMappings:
+            - ContainerPort: 80
+              HostPort: 80
+
+  # ECS Service
+  ECSService:
+    Type: AWS::ECS::Service
+    Properties:
+      Cluster: arn:aws:ecs:ap-south-1:975050202362:cluster/testing  # Replace with your ECS Cluster ARN
+      DesiredCount: 1
+      TaskDefinition: !Ref ECSTaskDefinition
+      LaunchType: FARGATE
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets:
+            - subnet-013bcb0c3b44af0ed  # Replace with your subnet ID
+          SecurityGroups:
+            - sg-00eb75a2eb35e37c5  # Replace with your security group ID
